@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Platform, Pressable } from 'react-native';
+import CircleButton from './components/circleButton';
 
 export default function GameScreen({navigation}) {
   const onPressHandler = () => {
@@ -8,12 +9,24 @@ export default function GameScreen({navigation}) {
   }
   return (
     <SafeAreaView style={styles.container}>
-    <Text style={styles.score}>0</Text>
-     
-        <Pressable onPress={onPressHandler}>
-          <View style={styles.circle}>
-          </View>
-        </Pressable>
+    <Text style={styles.score}>2912</Text>
+      <View style={styles.circleGrid}>
+        <View style={styles.circleRow}>
+          <CircleButton ignite={false}/>
+          <CircleButton ignite={false}/>
+          <CircleButton ignite={false}/>
+        </View>
+        <View style={styles.circleRow}>
+          <CircleButton ignite={true}/>
+          <CircleButton ignite={false}/>
+          <CircleButton ignite={false}/>
+        </View>
+        <View style={styles.circleRow}>
+          <CircleButton ignite={false}/>
+          <CircleButton ignite={false}/>
+          <CircleButton ignite={false}/>
+        </View>
+      </View>
 
     <StatusBar style="auto" />
   </SafeAreaView>
@@ -30,10 +43,9 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? 25 : 0
   },
   score: {
-    color: '#FFF',
-    fontSize: 70,
+    color: '#ADADAD',
+    fontSize: 40,
     bottom: 30,
-    fontWeight: '100',
     textAlign: 'center',
   },
   buttonContainer: {
@@ -53,5 +65,11 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     color: '#FFF',
     fontSize: 18,
+  },
+  circleRow: {
+    flexDirection: 'row',
+  },
+  circleGrid: {
+    paddingTop: 90,
   }
 });

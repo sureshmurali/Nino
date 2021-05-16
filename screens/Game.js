@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView, Platform, Pressable } from 'react
 
 export default function GameScreen({navigation}) {
   const onPressHandler = () => {
-    navigation.navigate('Game');
+    navigation.navigate('Home');
   }
   return (
     <SafeAreaView style={styles.container}>

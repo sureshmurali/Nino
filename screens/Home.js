@@ -24,7 +24,6 @@ export default function HomeScreen({navigation}) {
           </View>
         </Pressable>
           <Text style={styles.buttonLabel}>Touch to start</Text>
-        
       </View>
     <StatusBar style="auto" />
   </SafeAreaView>

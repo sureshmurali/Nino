@@ -1,10 +1,10 @@
-import React from 'react';
+import * as React from "react";
 import { StyleSheet, View, Platform, Pressable } from 'react-native';
 
 
 export default function circleButton(props) {
   const onPressHandler = () => {
-    console.log('+1');
+    props.onClickHandler();
   }
   return ( 
         <Pressable onPress={onPressHandler}>

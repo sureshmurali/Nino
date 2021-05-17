@@ -1,30 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import {useState} from "react";
 import { StyleSheet, Text, View, SafeAreaView, Platform, Pressable } from 'react-native';
 import CircleButton from './components/circleButton';
 
 export default function GameScreen({navigation}) {
+
+  const [score, setScore] = useState(0);
+
+  const updateScore = () => {
+    setScore(score+1);
+  };
+
+
   const onPressHandler = () => {
     navigation.navigate('Home');
   }
   return (
     <SafeAreaView style={styles.container}>
-    <Text style={styles.score}>2912</Text>
+    <Text style={styles.score}>{score}</Text>
       <View style={styles.circleGrid}>
         <View style={styles.circleRow}>
-          <CircleButton ignite={false}/>
-          <CircleButton ignite={false}/>
-          <CircleButton ignite={false}/>
+          <CircleButton ignite={false} onClickHandler={updateScore}/>
+          <CircleButton ignite={false} onClickHandler={updateScore}/>
+          <CircleButton ignite={false} onClickHandler={updateScore}/>
         </View>
         <View style={styles.circleRow}>
-          <CircleButton ignite={true}/>
-          <CircleButton ignite={false}/>
-          <CircleButton ignite={false}/>
+          <CircleButton ignite={true} onClickHandler={updateScore}/>
+          <CircleButton ignite={false} onClickHandler={updateScore}/>
+          <CircleButton ignite={false} onClickHandler={updateScore}/>
         </View>
         <View style={styles.circleRow}>
-          <CircleButton ignite={false}/>
-          <CircleButton ignite={false}/>
-          <CircleButton ignite={false}/>
+          <CircleButton ignite={false} onClickHandler={updateScore}/>
+          <CircleButton ignite={false} onClickHandler={updateScore}/>
+          <CircleButton ignite={false} onClickHandler={updateScore}/>
         </View>
       </View>
 

@@ -1,23 +1,31 @@
 import * as React from "react";
-import { StyleSheet, View, Platform, Pressable } from 'react-native';
-import {useState, useEffect} from "react";
+import { StyleSheet, View, Platform, Pressable, Animated } from 'react-native';
+import {useState, useEffect, useRef} from "react";
 
 export default function circleButton(props) {
   const [ignite, setIgnite] = useState(false);
+  const igniteRef= useRef({});
+  igniteRef.current = ignite;
+
   useEffect(() => {
-   setIgnite(props.id == props.ignitedCircle? true : false);
-  }, []);
+    if(props.id == props.ignitedCircle && !ignite)
+    {
+      // Animated.timing
+      setIgnite(true);
+      const interval = setTimeout(() => {
+      setIgnite(false);
+    }, 2000);
+  }
+}, [props])
 
   const onPressHandler = () => {
-    if(ignite)
-    {
+      setIgnite(false);
       props.onClickHandler();
-    }
   }
   return ( 
         <Pressable onPress={onPressHandler}>
-          <View style={props.id === props.ignitedCircle? styles.circleIgnite : styles.circle}>
-          </View>
+          <Animated.View style={igniteRef.current? styles.circleIgnite : styles.circle}>
+          </Animated.View>
         </Pressable>
   );
 }

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import { StyleSheet, Text, View, SafeAreaView, Platform, Pressable } from 'react-native';
 import CircleButton from './components/circleButton';
 
@@ -8,11 +8,14 @@ export default function GameScreen({navigation}) {
 
   const [score, setScore] = useState(0);
   const [randomCircleID, setRandomCircle] = useState(0);
+  const randomRef= useRef({});
+  randomRef.current = randomCircleID;
 
   useEffect(() => {
     const interval = setInterval(() => {
-      selectRandomCircle();
-    }, 100);
+      let num = selectRandomCircle();
+      setRandomCircle(num); 
+    }, 500);
     return () => clearInterval(interval);
   }, []);
 
@@ -21,7 +24,12 @@ export default function GameScreen({navigation}) {
   };
 
   const selectRandomCircle = () => {
-    setRandomCircle(Math.floor(Math.random() * 8)+1); 
+    let randomID = -1;
+    do{
+      randomID = Math.floor(Math.random() * 8)+1;
+      if(randomID == randomRef.current) {console.log("strike "+ randomID);}
+    } while(randomID === randomRef.current)
+    return randomID;
   }
 
 

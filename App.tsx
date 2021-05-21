@@ -4,6 +4,7 @@ import * as Font from 'expo-font';
 import { StyleSheet, Text, View, SafeAreaView, Platform, Pressable } from 'react-native';
 import HomeScreen from './screens/Home';
 import GameScreen from './screens/Game/Game';
+import GameOverScreen from './screens/GameOver';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -26,6 +27,13 @@ function App() {
           <Stack.Screen
             name="Game"
             component={GameScreen}
+            options = {{
+              header: () => null
+            }}
+          />
+          <Stack.Screen
+            name="GameOver"
+            component={GameOverScreen}
             options = {{
               header: () => null
             }}

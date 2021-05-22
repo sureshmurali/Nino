@@ -1,39 +1,34 @@
 import * as React from "react";
 import { StyleSheet, View, Platform, Pressable, Animated } from 'react-native';
-import {useState, useEffect, useRef} from "react";
+import {useState, useEffect, useRef, useContext} from "react";
 
 export default function circleButton(props) {
-  let timerApi = null;
+  let timerApi = useRef(null);
   const [ignite, setIgnite] = useState(false);
   const igniteRef= useRef({});
-  const unmounted = useRef(false);
   igniteRef.current = ignite;
 
   useEffect(() => {
-    if(props.gameOver && timerApi){
-      clearTimeout(timerApi);
-    }
-    if(props.id == props.ignitedCircle && !igniteRef.current && !props.gameOver)
+    if(props.id == props.ignitedCircle && !igniteRef.current)
     {
       setIgnite(true);
-      timerApi = setTimeout(() => {
-        console.log("Unmounted: "+ unmounted.current);
-        if(!props.gameOver && igniteRef.current && !unmounted.current)
+      console.log(">Ignite: "+  props.id);
+      timerApi.current = setTimeout(() => {
+        if(igniteRef.current)
         {
-        console.log("Game Over "+  props.id+": "+props.gameOver); ;
+        console.log("Failed to tap "+props.id);
         props.gameOverHandler();
         }
       }, 2000);
     }
-    return () => { 
-      console.log("Unmounted "+  props.id+" now");
-      unmounted.current = true 
-    }
-  }, [props])
+  }, [props.ignitedCircle])
 
     const onPressHandler = () => {
-        clearTimeout(timerApi);
+        console.log(">>>>>>>>>>>>>>Tap: "+  props.id+"");
         setIgnite(false);
+        console.log(">Put off Ignite: "+  props.id);
+        clearTimeout(timerApi.current);
+        console.log("Cleared "+ props.id + " interval");
         props.onClickHandler();
     }
     return ( 
@@ -62,6 +57,15 @@ const styles = StyleSheet.create({
     borderWidth: 8,
     borderRadius: 100,
     backgroundColor: '#FFF',
+  },
+  circleGameOver: {
+    width: 90,
+    height: 90,
+    margin: 10,
+    borderColor: '#D2D2D2',
+    borderWidth: 8,
+    borderRadius: 100,
+    backgroundColor: 'red',
   },
   bloom: {
     width: 20,

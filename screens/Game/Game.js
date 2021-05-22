@@ -9,15 +9,18 @@ export default function GameScreen({navigation}) {
   const circleCount = 12;
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const gameOverRef= useRef({});
   const [randomCircleID, setRandomCircle] = useState(0);
   const randomRef= useRef({});
   randomRef.current = randomCircleID;
+  gameOverRef.current = gameOver;
 
   useEffect(() => {
     console.log('timer start')
     timer.current = setInterval(() => {
       let num = selectRandomCircle();
       setRandomCircle(num); 
+      console.log('Roll: '+ num);
     }, 750);
     return () => {
       console.log('Game component unmounted');
@@ -26,20 +29,23 @@ export default function GameScreen({navigation}) {
   }, []);
 
   const updateScore = () => {
-    setScore(score+1);
+    setScore(score => score+1);
   };
 
   const gameOverHandler = () => {
     
-    if(!gameOver)
+    if(!gameOverRef.current)
     {
       clearInterval(timer.current);
       setGameOver(true); 
-      //navigation.navigate('GameOver');
+      console.log('Game over in Game.js!!!');
+    
       navigation.reset({
+        
         index: 0,
         routes: [{ name: 'GameOver' }],
       });
+
     }
   };
 
@@ -47,7 +53,7 @@ export default function GameScreen({navigation}) {
     let randomID = -1;
     do{
       randomID = Math.floor(Math.random() * circleCount)+1;
-      // if(randomID == randomRef.current) {console.log("strike "+ randomID);}
+      if(randomID == randomRef.current) {console.log("strike "+ randomID);}
     } while(randomID === randomRef.current)
     return randomID;
   }
@@ -60,24 +66,24 @@ export default function GameScreen({navigation}) {
     {/* {!gameOver && */}
       <View style={styles.circleGrid}>
         <View style={styles.circleRow}>
-          <CircleButton id={1} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
-          <CircleButton id={2} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
-          <CircleButton id={3} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={1} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={2} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={3} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
         </View>
         <View style={styles.circleRow}>
-          <CircleButton id={4} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
-          <CircleButton id={5} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
-          <CircleButton id={6} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={4} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={5} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={6} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
         </View>
         <View style={styles.circleRow}>
-          <CircleButton id={7} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
-          <CircleButton id={8} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
-          <CircleButton id={9} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={7} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={8} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={9} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
         </View>
         <View style={styles.circleRow}>
-          <CircleButton id={10} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
-          <CircleButton id={11} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
-          <CircleButton id={12} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOver={gameOver} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={10} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={11} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
+          <CircleButton id={12} ignitedCircle={randomCircleID} onClickHandler={updateScore} gameOverHandler={gameOverHandler}/>
         </View>
       </View>
     {/* } */}

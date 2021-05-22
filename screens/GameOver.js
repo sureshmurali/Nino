@@ -5,10 +5,12 @@ import { useFonts } from 'expo-font';
 // import { StackActions } from '@react-navigation/native';
 
 
-export default function GameOverScreen({navigation}) {
+export default function GameOverScreen({route, navigation}) {
   const [loaded] = useFonts({
     'RalewayRegular': require('../assets/fonts/RalewayRegular.ttf'),
   });
+  //const { score } = route.params;
+  let score = 0;
   
   if (!loaded) {
     return null;
@@ -22,6 +24,7 @@ export default function GameOverScreen({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
     <Text style={styles.title}>Game over</Text>
+    <Text style={styles.title}>Score: {score}</Text>
       <View style={styles.buttonContainer}>
         <Pressable onPress={onPressHandler}>
           <View style={styles.circle}>

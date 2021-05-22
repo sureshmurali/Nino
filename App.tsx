@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, SafeAreaView, Platform, Pressable } from 'react
 import HomeScreen from './screens/Home';
 import GameScreen from './screens/Game/Game';
 import GameOverScreen from './screens/GameOver';
+import {useState} from "react";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,6 +14,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 function App() {
+
   return (
     <View style={styles.appStyle}>
       <NavigationContainer>

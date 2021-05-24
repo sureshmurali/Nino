@@ -11,7 +11,7 @@ export default function GameScreen({navigation}) {
 
   // Reference
   let timer = useRef(null);
-  let timerSpeed = useRef(100);
+  let timerSpeed = useRef(1000);
   const gameOverRef= useRef({});
   
   // States
@@ -23,13 +23,22 @@ export default function GameScreen({navigation}) {
   gameOverRef.current = gameOver;
   randomRef.current = randomCircleID;
 
-  useEffect(() => {
-    console.log('Timer start')
+  const timerRecursion = () => {
     timer.current = setInterval(() => {
       let num = selectRandomCircle();
       setRandomCircle(num); 
       console.log('Roll: '+ num);
+      if(score%2==0 && timerSpeed.current > 300){
+        timerSpeed.current = timerSpeed.current-25;
+        clearTimeout(timer.current);
+        timerRecursion();
+      }
     }, timerSpeed.current);
+  }
+
+  useEffect(() => {
+    console.log('Timer start')
+    timerRecursion();
     return () => {
       console.log('Game component unmounted');
       clearInterval(timer.current);

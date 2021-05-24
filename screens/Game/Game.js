@@ -5,23 +5,31 @@ import { StyleSheet, Text, View, SafeAreaView, Platform, Pressable } from 'react
 import CircleButton from './components/circleButton';
 
 export default function GameScreen({navigation}) {
-  let timer = useRef(null);
+
+  // Constants
   const circleCount = 12;
+
+  // Reference
+  let timer = useRef(null);
+  let timerSpeed = useRef(100);
+  const gameOverRef= useRef({});
+  
+  // States
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const gameOverRef= useRef({});
   const [randomCircleID, setRandomCircle] = useState(0);
+
   const randomRef= useRef({});
-  randomRef.current = randomCircleID;
   gameOverRef.current = gameOver;
+  randomRef.current = randomCircleID;
 
   useEffect(() => {
-    console.log('timer start')
+    console.log('Timer start')
     timer.current = setInterval(() => {
       let num = selectRandomCircle();
       setRandomCircle(num); 
       console.log('Roll: '+ num);
-    }, 750);
+    }, timerSpeed.current);
     return () => {
       console.log('Game component unmounted');
       clearInterval(timer.current);
@@ -39,7 +47,7 @@ export default function GameScreen({navigation}) {
       clearInterval(timer.current);
       setGameOver(true); 
       console.log('Game over in Game.js!!!');
-    
+      
       navigation.reset({
         
         index: 0,

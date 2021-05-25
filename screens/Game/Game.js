@@ -4,6 +4,7 @@ import {useState, useEffect, useRef} from "react";
 import { StyleSheet, Text, View, SafeAreaView, Platform, Pressable } from 'react-native';
 import CircleButton from './components/circleButton';
 
+
 export default function GameScreen({navigation}) {
 
   // Constants

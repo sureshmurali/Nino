@@ -8,22 +8,35 @@ export default function circleButton(props) {
   const igniteRef= useRef({});
   igniteRef.current = ignite;
 
+  const scaleAnim = useRef(new Animated.ValueXY({x:1, y:1})).current;
+  const growCirle = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(scaleAnim, {
+      toValue: {x: 78, y:78},
+      duration: 2000,
+      useNativeDriver: true // Add This line
+    }).start();
+  };
+  
   useEffect(() => {
     if(props.id == props.ignitedCircle && !igniteRef.current)
     {
       setIgnite(true);
+      growCirle();
       console.log(">Ignite: "+  props.id);
       timerApi.current = setTimeout(() => {
         if(igniteRef.current)
         {
         console.log("Failed to tap "+props.id);
-        props.gameOverHandler();
+        //props.gameOverHandler();
         }
       }, 2000);
     }
   }, [props.ignitedCircle])
 
-    const onPressHandler = () => {
+  
+
+  const onPressHandler = () => {
         console.log(">>>>>>>>>>>>>>Tap: "+  props.id+"");
         setIgnite(false);
         console.log(">Put off Ignite: "+  props.id);
@@ -33,9 +46,15 @@ export default function circleButton(props) {
     }
     return ( 
           <Pressable onPress={onPressHandler}>
-            <Animated.View style={igniteRef.current? styles.circleIgnite : styles.circle}>
+            <Animated.View style={styles.circle}>
             </Animated.View>
-            {/* <Animated.View style={styles.bloom}></Animated.View> */}
+            <Animated.View style={[styles.bloom
+            ,{transform: [
+                {scaleX: scaleAnim.x,},
+                { scaleY: scaleAnim.y,},
+              ]}
+            ]}
+            ></Animated.View>
           </Pressable>
     );
   }
@@ -68,14 +87,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   bloom: {
-    width: 20,
-    height: 20,
+    width: 1,
+    height: 1,
     backgroundColor: '#FFF',
-    margin: -10,
     position: 'absolute',
     borderRadius: 100,
     top: '50%',
     right:'50%',
+    
   },
   
 });

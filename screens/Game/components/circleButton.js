@@ -9,11 +9,19 @@ export default function circleButton(props) {
   igniteRef.current = ignite;
 
   const scaleAnim = useRef(new Animated.ValueXY({x:1, y:1})).current;
+
   const growCirle = () => {
-    // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(scaleAnim, {
-      toValue: {x: 78, y:78},
+      toValue: {x: 70, y:70},
       duration: 2000,
+      useNativeDriver: true // Add This line
+    }).start();
+  };
+
+  const shrinkCirle = () => {
+    Animated.timing(scaleAnim, {
+      toValue: {x: 0, y:0},
+      duration: 200,
       useNativeDriver: true // Add This line
     }).start();
   };
@@ -28,7 +36,7 @@ export default function circleButton(props) {
         if(igniteRef.current)
         {
         console.log("Failed to tap "+props.id);
-        //props.gameOverHandler();
+        props.gameOverHandler();
         }
       }, 2000);
     }
@@ -41,6 +49,7 @@ export default function circleButton(props) {
         setIgnite(false);
         console.log(">Put off Ignite: "+  props.id);
         clearTimeout(timerApi.current);
+        shrinkCirle();
         console.log("Cleared "+ props.id + " interval");
         props.onClickHandler();
     }

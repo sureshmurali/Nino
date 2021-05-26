@@ -27,7 +27,7 @@ export default function GameOverScreen({route, navigation}) {
   return (
     <SafeAreaView style={styles.container}>
     <Text style={styles.title}>Game over</Text>
-    <Text style={styles.title}>Score: {score}</Text>
+    {/* <Text style={styles.title}>Score: {score}</Text> */}
       <View style={styles.buttonContainer}>
         <Pressable onPress={onPressHandler}>
           <View style={styles.circle}>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#FFF',
     fontFamily: "RalewayRegular",
-    fontSize: 70,
+    fontSize: 60,
     bottom: 30,
     fontWeight: '100',
     textAlign: 'center',

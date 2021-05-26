@@ -12,7 +12,7 @@ export default function GameScreen({navigation}) {
 
   // Reference
   let timer = useRef(null);
-  let timerSpeed = useRef(1000);
+  let timerSpeed = useRef(800);
   const gameOverRef= useRef({});
   
   // States

@@ -51,7 +51,7 @@ export default function GameScreen({navigation}) {
   };
 
   const gameOverHandler = () => {
-    
+    setTimeout(() => {
     if(!gameOverRef.current)
     {
       clearInterval(timer.current);
@@ -65,6 +65,7 @@ export default function GameScreen({navigation}) {
       });
 
     }
+  }, 1500);
   };
 
   const selectRandomCircle = () => {
@@ -79,8 +80,7 @@ export default function GameScreen({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
     
-    <Text style={styles.score}>{"score_"+score}</Text>
-    <Text style={styles.score}>{"randomCircleID_"+randomCircleID}</Text>
+    <Text style={styles.score}>{score}</Text>
     {/* {!gameOver && */}
       <View style={styles.circleGrid}>
         <View style={styles.circleRow}>

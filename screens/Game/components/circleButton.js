@@ -1,19 +1,21 @@
 import * as React from "react";
-import { StyleSheet, View, Platform, Pressable, Animated } from 'react-native';
+import { StyleSheet, View, Platform, Pressable, Animated, Easing } from 'react-native';
 import {useState, useEffect, useRef, useContext} from "react";
+
 
 export default function circleButton(props) {
   let timerApi = useRef(null);
   const [ignite, setIgnite] = useState(false);
   const igniteRef= useRef({});
   igniteRef.current = ignite;
-
-  const scaleAnim = useRef(new Animated.ValueXY({x:1, y:1})).current;
+  const scaleAnim = useRef(new Animated.ValueXY({x:0, y:0})).current;
+  const scaleBorderAnim = useRef(new Animated.ValueXY({x:1, y:1})).current;
 
   const growCirle = () => {
     Animated.timing(scaleAnim, {
       toValue: {x: 70, y:70},
       duration: 2000,
+      easing:  Easing.bounce,
       useNativeDriver: true // Add This line
     }).start();
   };
@@ -22,6 +24,16 @@ export default function circleButton(props) {
     Animated.timing(scaleAnim, {
       toValue: {x: 0, y:0},
       duration: 200,
+      easing: Easing.bounce,
+      useNativeDriver: true // Add This line
+    }).start();
+  };
+
+  const growBorder = () => {
+    Animated.timing(scaleBorderAnim, {
+      toValue: {x: 40, y:40},
+      duration:3000,
+      easing:  Easing.bounce,
       useNativeDriver: true // Add This line
     }).start();
   };
@@ -36,6 +48,7 @@ export default function circleButton(props) {
         if(igniteRef.current)
         {
         console.log("Failed to tap "+props.id);
+        growBorder();
         props.gameOverHandler();
         }
       }, 2000);
@@ -55,7 +68,11 @@ export default function circleButton(props) {
     }
     return ( 
           <Pressable onPress={onPressHandler}>
-            <Animated.View style={styles.circle}>
+            <Animated.View style={[styles.circle,{transform: [
+                {scaleX: scaleBorderAnim.x,},
+                { scaleY: scaleBorderAnim.y,},
+              ]}
+            ]}>
             </Animated.View>
             <Animated.View style={[styles.bloom
             ,{transform: [
@@ -103,7 +120,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     top: '50%',
     right:'50%',
-    
   },
   
 });

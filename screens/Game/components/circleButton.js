@@ -5,16 +5,19 @@ import {useState, useEffect, useRef, useContext} from "react";
 
 export default function circleButton(props) {
   let timerApi = useRef(null);
+  let gameOver = useRef(false);
   const [ignite, setIgnite] = useState(false);
   const igniteRef= useRef({});
   igniteRef.current = ignite;
   const scaleAnim = useRef(new Animated.ValueXY({x:0, y:0})).current;
   const scaleBorderAnim = useRef(new Animated.ValueXY({x:1, y:1})).current;
 
+  const bombTime = 2000;
+
   const growCirle = () => {
     Animated.timing(scaleAnim, {
-      toValue: {x: 70, y:70},
-      duration: 2000,
+      toValue: {x: 7, y:7},
+      duration: bombTime,
       easing:  Easing.bounce,
       useNativeDriver: true // Add This line
     }).start();
@@ -23,7 +26,7 @@ export default function circleButton(props) {
   const shrinkCirle = () => {
     Animated.timing(scaleAnim, {
       toValue: {x: 0, y:0},
-      duration: 200,
+      duration: bombTime/20,
       easing: Easing.bounce,
       useNativeDriver: true // Add This line
     }).start();
@@ -39,7 +42,7 @@ export default function circleButton(props) {
   };
   
   useEffect(() => {
-    if(props.id == props.ignitedCircle && !igniteRef.current)
+    if(props.id == props.ignitedCircle && !igniteRef.current && !gameOver.current)
     {
       setIgnite(true);
       growCirle();
@@ -47,11 +50,12 @@ export default function circleButton(props) {
       timerApi.current = setTimeout(() => {
         if(igniteRef.current)
         {
+        gameOver.current = true;
         console.log("Failed to tap "+props.id);
         growBorder();
         props.gameOverHandler();
         }
-      }, 2000);
+      }, bombTime);
     }
   }, [props.ignitedCircle])
 
@@ -67,7 +71,7 @@ export default function circleButton(props) {
         props.onClickHandler();
     }
     return ( 
-          <Pressable onPress={onPressHandler}>
+          <Pressable onPress={onPressHandler} style={[styles.test]}>
             <Animated.View style={[styles.circle,{transform: [
                 {scaleX: scaleBorderAnim.x,},
                 { scaleY: scaleBorderAnim.y,},
@@ -81,6 +85,7 @@ export default function circleButton(props) {
               ]}
             ]}
             ></Animated.View>
+            
           </Pressable>
     );
   }
@@ -113,13 +118,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   bloom: {
-    width: 1,
-    height: 1,
+    width: 10,
+    height: 10,
     backgroundColor: '#FFF',
     position: 'absolute',
-    borderRadius: 100,
-    top: '50%',
-    right:'50%',
+    borderRadius: 10,
+    top: '45.5%',
+    left: '45.5%',
   },
   
 });

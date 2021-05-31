@@ -12,7 +12,7 @@ export default function GameScreen({navigation}) {
 
   // Reference
   let timer = useRef(null);
-  let timerSpeed = useRef(800);
+  let timerSpeed = useRef(600);
   const gameOverRef= useRef({});
   
   // States
@@ -29,8 +29,8 @@ export default function GameScreen({navigation}) {
       let num = selectRandomCircle();
       setRandomCircle(num); 
       console.log('Roll: '+ num);
-      if(score%2==0 && timerSpeed.current > 300){
-        timerSpeed.current = timerSpeed.current-25;
+      if(score%10==0 && timerSpeed.current > 180){
+        timerSpeed.current = timerSpeed.current-5;
         clearTimeout(timer.current);
         timerRecursion();
       }
